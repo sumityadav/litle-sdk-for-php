@@ -22,25 +22,28 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
+
 namespace litle\sdk\Test\unit;
+
 use litle\sdk\LitleOnlineRequest;
+
 class UpdateSubscriptionUnitTest extends \PHPUnit_Framework_TestCase
 {
     public function test_simple()
     {
-        $hash_in = array(
-            'subscriptionId'=>'1',
-            'planCode'=> '2',
-            'billToAddress'=> array (
-                'addressLine1' => '3'
-            ),
-            'card' => array (
-                'type'=>'VI',
-                'number'=>'4100000000000000',
-                'expDate'=>'1213',
-                'cardValidationNum' => '1213'
-            ),
-            'billingDate'=>'2013-12-17');
+        $hash_in = [
+            'subscriptionId' => '1',
+            'planCode'       => '2',
+            'billToAddress'  =>  [
+                'addressLine1' => '3',
+            ],
+            'card' =>  [
+                'type'              => 'VI',
+                'number'            => '4100000000000000',
+                'expDate'           => '1213',
+                'cardValidationNum' => '1213',
+            ],
+            'billingDate' => '2013-12-17', ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock->expects($this->once())
         ->method('request')
@@ -53,18 +56,18 @@ class UpdateSubscriptionUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_PlanCodeIsOptional()
     {
-        $hash_in = array(
-            'subscriptionId'=>'1',
-            'billToAddress'=> array (
-                'addressLine1' => '3'
-            ),
-            'card' => array (
-                'type'=>'VI',
-                'number'=>'4100000000000000',
-                'expDate'=>'1213',
-                'cardValidationNum' => '1213'
-            ),
-            'billingDate'=>'2013-12-17');
+        $hash_in = [
+            'subscriptionId' => '1',
+            'billToAddress'  =>  [
+                'addressLine1' => '3',
+            ],
+            'card' =>  [
+                'type'              => 'VI',
+                'number'            => '4100000000000000',
+                'expDate'           => '1213',
+                'cardValidationNum' => '1213',
+            ],
+            'billingDate' => '2013-12-17', ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
 
         $mock->expects($this->once())
@@ -78,15 +81,15 @@ class UpdateSubscriptionUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_BillToAddressIsOptional()
     {
-        $hash_in = array(
-            'subscriptionId'=>'1',
-            'card' => array (
-                'type'=>'VI',
-                'number'=>'4100000000000000',
-                'expDate'=>'1213',
-                'cardValidationNum' => '1213'
-            ),
-            'billingDate'=>'2013-12-17');
+        $hash_in = [
+            'subscriptionId' => '1',
+            'card'           =>  [
+                'type'              => 'VI',
+                'number'            => '4100000000000000',
+                'expDate'           => '1213',
+                'cardValidationNum' => '1213',
+            ],
+            'billingDate' => '2013-12-17', ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
 
         $mock->expects($this->once())
@@ -100,9 +103,9 @@ class UpdateSubscriptionUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_CardIsOptional()
     {
-        $hash_in = array(
-            'subscriptionId'=>'1',
-            'billingDate'=>'2013-12-17');
+        $hash_in = [
+            'subscriptionId' => '1',
+            'billingDate'    => '2013-12-17', ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
 
         $mock->expects($this->once())
@@ -116,8 +119,8 @@ class UpdateSubscriptionUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_BillingDateIsOptional()
     {
-        $hash_in = array(
-            'subscriptionId'=>'1');
+        $hash_in = [
+            'subscriptionId' => '1', ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
 
         $mock->expects($this->once())
@@ -131,15 +134,15 @@ class UpdateSubscriptionUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_choice_card()
     {
-        $hash_in = array(
-            'subscriptionId'=>'1',
-            'card' => array (
-                'type'=>'VI',
-                'number'=>'4100000000000000',
-                'expDate'=>'1213',
-                'cardValidationNum' => '1213'
-            )
-         );
+        $hash_in = [
+            'subscriptionId' => '1',
+            'card'           =>  [
+                'type'              => 'VI',
+                'number'            => '4100000000000000',
+                'expDate'           => '1213',
+                'cardValidationNum' => '1213',
+            ],
+         ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
 
         $mock->expects($this->once())
@@ -153,15 +156,15 @@ class UpdateSubscriptionUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_choice_token()
     {
-        $hash_in = array(
-            'subscriptionId'=>'1',
-            'token' => array (
-                'litleToken'=>'1111222233334444',
-                'expDate'=>'1213',
+        $hash_in = [
+            'subscriptionId' => '1',
+            'token'          =>  [
+                'litleToken'        => '1111222233334444',
+                'expDate'           => '1213',
                 'cardValidationNum' => '1213',
-                'type'=>'VI'
-            )
-         );
+                'type'              => 'VI',
+            ],
+         ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
 
         $mock->expects($this->once())
@@ -175,15 +178,15 @@ class UpdateSubscriptionUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_choice_paypage()
     {
-        $hash_in = array(
-            'subscriptionId'=>'1',
-            'paypage' => array (
-                'paypageRegistrationId'=>'abc123',
-                'expDate'=>'1213',
-                'cardValidationNum' => '1213',
-                'type'=>'VI',
-            )
-         );
+        $hash_in = [
+            'subscriptionId' => '1',
+            'paypage'        =>  [
+                'paypageRegistrationId' => 'abc123',
+                'expDate'               => '1213',
+                'cardValidationNum'     => '1213',
+                'type'                  => 'VI',
+            ],
+         ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
 
         $mock->expects($this->once())
@@ -194,5 +197,4 @@ class UpdateSubscriptionUnitTest extends \PHPUnit_Framework_TestCase
         $litleTest->newXML = $mock;
         $litleTest->updateSubscription($hash_in);
     }
-
 }

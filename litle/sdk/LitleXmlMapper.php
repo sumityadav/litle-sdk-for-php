@@ -23,16 +23,18 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 #require_once realpath(dirname(__FILE__)) . '/LitleOnline.php';
+
 namespace litle\sdk;
+
 class LitleXmlMapper
 {
     public function __construct()
     {
     }
 
-    public function request($request,$hash_config=NULL,$useSimpleXml)
+    public function request($request, $hash_config = null, $useSimpleXml)
     {
-        $response = Communication::httpRequest($request,$hash_config);
+        $response = Communication::httpRequest($request, $hash_config);
         if ($useSimpleXml) {
             $respObj = simplexml_load_string($response);
         } else {
@@ -41,5 +43,4 @@ class LitleXmlMapper
 
         return $respObj;
     }
-
 }

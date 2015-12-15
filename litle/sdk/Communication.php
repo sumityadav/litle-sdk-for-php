@@ -22,10 +22,12 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+
 namespace litle\sdk;
+
 class Communication
 {
-    public static function httpRequest($req,$hash_config=NULL)
+    public static function httpRequest($req, $hash_config = null)
     {
         $config = Obj2xml::getConfig($hash_config);
 
@@ -35,19 +37,19 @@ class Communication
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_PROXY, $config['proxy']);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: text/xml'));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-type: text/xml']);
         curl_setopt($ch, CURLOPT_URL, $config['url']);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
         curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);
-        curl_setopt($ch,CURLOPT_TIMEOUT, $config['timeout']);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $config['timeout']);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,2);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSLVERSION, 6);
         $output = curl_exec($ch);
         $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if (! $output) {
-            throw new \Exception (curl_error($ch));
+        if (!$output) {
+            throw new \Exception(curl_error($ch));
         } else {
             curl_close($ch);
             if ((int) $config['print_xml']) {
@@ -56,6 +58,5 @@ class Communication
 
             return $output;
         }
-
     }
 }

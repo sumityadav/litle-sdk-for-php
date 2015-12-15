@@ -22,24 +22,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
+
 namespace litle\sdk\Test\unit;
+
 use litle\sdk\LitleOnlineRequest;
-require_once realpath(__DIR__). '/../../../../vendor/autoload.php';
+
+require_once realpath(__DIR__).'/../../../../vendor/autoload.php';
 class ActivateUnitTest extends \PHPUnit_Framework_TestCase
 {
     public function test_simple()
     {
-        $hash_in = array(
-            'orderId'=>'1',
-            'amount'=> '2',
-            'orderSource'=>'ECOMMERCE',
-            'card' => array (
-                'type'=>'VI',
-                'number'=>'4100000000000000',
-                'expDate'=>'1213',
-                'cardValidationNum' => '1213'
-            )
-        );
+        $hash_in = [
+            'orderId'     => '1',
+            'amount'      => '2',
+            'orderSource' => 'ECOMMERCE',
+            'card'        =>  [
+                'type'              => 'VI',
+                'number'            => '4100000000000000',
+                'expDate'           => '1213',
+                'cardValidationNum' => '1213',
+            ],
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock->expects($this->once())
         ->method('request')

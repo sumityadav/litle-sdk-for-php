@@ -22,13 +22,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
+
 namespace litle\sdk\Test\unit;
+
 use litle\sdk\LitleOnlineRequest;
+
 class VoidUnitTest extends \PHPUnit_Framework_TestCase
 {
     public function test_simple_echeckRedeposit()
     {
-        $hash_in = array('litleTxnId' =>'123123','reportGroup'=>'Planets');
+        $hash_in = ['litleTxnId' => '123123', 'reportGroup' => 'Planets'];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock->expects($this->once())
         ->method('request')
@@ -38,21 +41,22 @@ class VoidUnitTest extends \PHPUnit_Framework_TestCase
         $litleTest->newXML = $mock;
         $litleTest->voidRequest($hash_in);
     }
+
     public function test_no_litleTxnId()
     {
-        $hash_in = array('reportGroup'=>'Planets');
+        $hash_in = ['reportGroup' => 'Planets'];
         $litleTest = new LitleOnlineRequest();
-        $this->setExpectedException('InvalidArgumentException',"Missing Required Field: /litleTxnId/");
+        $this->setExpectedException('InvalidArgumentException', 'Missing Required Field: /litleTxnId/');
         $retOb = $litleTest->voidRequest($hash_in);
     }
 
     public function test_loggedInUser()
     {
-        $hash_in = array(
-                'litleTxnId' =>'123123',
-                'merchantSdk'=>'PHP;8.14.0',
-                'reportGroup'=>'Planets',
-                'loggedInUser'=>'gdake');
+        $hash_in = [
+                'litleTxnId'   => '123123',
+                'merchantSdk'  => 'PHP;8.14.0',
+                'reportGroup'  => 'Planets',
+                'loggedInUser' => 'gdake', ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock->expects($this->once())
         ->method('request')
