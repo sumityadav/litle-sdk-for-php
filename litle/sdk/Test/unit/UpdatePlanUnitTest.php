@@ -22,16 +22,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
+
 namespace litle\sdk\Test\unit;
+
 use litle\sdk\LitleOnlineRequest;
+
 class UpdatePlanUnitTest extends \PHPUnit_Framework_TestCase
 {
     public function test_simple()
     {
-        $hash_in = array(
-            'planCode'=>'1',
-            'active'=>'true'
-        );
+        $hash_in = [
+            'planCode' => '1',
+            'active'   => 'true',
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock->expects($this->once())
         ->method('request')
@@ -41,5 +44,4 @@ class UpdatePlanUnitTest extends \PHPUnit_Framework_TestCase
         $litleTest->newXML = $mock;
         $litleTest->updatePlan($hash_in);
     }
-
 }

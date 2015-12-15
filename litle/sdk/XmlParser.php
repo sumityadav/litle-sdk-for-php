@@ -1,4 +1,5 @@
 <?php
+
 #error_reporting(E_ALL);
 #ini_set('display_errors', '1');
 
@@ -27,7 +28,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // =end
 // class and methods to parse a XML document into an object
+
 namespace litle\sdk;
+
 class XmlParser
 {
     public static function domParser($xml)
@@ -41,7 +44,7 @@ class XmlParser
     public static function getNode($dom, $elementName)
     {
         $elements = $dom->getElementsByTagName($elementName);
-        $retVal = "";
+        $retVal = '';
         foreach ($elements as $element) {
             $retVal = $element->nodeValue;
         }

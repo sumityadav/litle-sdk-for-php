@@ -22,7 +22,9 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
+
 namespace litle\sdk;
+
 class Checker
 {
     public static function requiredField($value)
@@ -30,20 +32,20 @@ class Checker
         if ($value != null) {
             return $value;
         } else {
-            return "REQUIRED";
+            return 'REQUIRED';
         }
     }
 
     public static function choice($choiceArray)
     {
-        $i= 0;
-        for ($y=0;$y<count($choiceArray);$y++) {
+        $i = 0;
+        for ($y = 0;$y < count($choiceArray);$y++) {
             if (isset($choiceArray[$y])) {
                 $i++;
             }
         }
         if ($i > 1) {
-            throw new \InvalidArgumentException("Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!");
+            throw new \InvalidArgumentException('Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!');
         }
     }
 }

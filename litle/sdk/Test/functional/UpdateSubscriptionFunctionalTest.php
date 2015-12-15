@@ -22,31 +22,33 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+
 namespace litle\sdk\Test\functional;
+
 use litle\sdk\LitleOnlineRequest;
 use litle\sdk\XmlParser;
+
 class UpdateSubscriptionFunctionalTest extends \PHPUnit_Framework_TestCase
 {
     public function test_simple()
     {
-
-        $hash_in = array(
-            'subscriptionId'=>'1',
-            'planCode'=> '2',
-            'billToAddress'=> array (
-                'addressLine1' => '3'
-            ),
-            'card' => array (
-                'type'=>'VI',
-                'number'=>'4100000000000000',
-                'expDate'=>'1213',
-                'cardValidationNum' => '1213'
-            ),
-            'billingDate'=>'2013-12-17');
+        $hash_in = [
+            'subscriptionId' => '1',
+            'planCode'       => '2',
+            'billToAddress'  =>  [
+                'addressLine1' => '3',
+            ],
+            'card' =>  [
+                'type'              => 'VI',
+                'number'            => '4100000000000000',
+                'expDate'           => '1213',
+                'cardValidationNum' => '1213',
+            ],
+            'billingDate' => '2013-12-17', ];
 
         $initialize = new LitleOnlineRequest();
         $updateSubscriptionResponse = $initialize->updateSubscription($hash_in);
-        $message = XmlParser::getAttribute($updateSubscriptionResponse,'litleOnlineResponse','message');
-        $this->assertEquals('Valid Format',$message);
+        $message = XmlParser::getAttribute($updateSubscriptionResponse, 'litleOnlineResponse', 'message');
+        $this->assertEquals('Valid Format', $message);
     }
 }

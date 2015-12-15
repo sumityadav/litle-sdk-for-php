@@ -22,18 +22,21 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+
 namespace litle\sdk\Test\unit;
+
 use litle\sdk\LitleOnlineRequest;
+
 class LitleOnlineRequestUnitTest extends \PHPUnit_Framework_TestCase
 {
     public function test_set_merchant_sdk_integration()
     {
-        $hash_in = array(
-            'merchantSdk'=>'Magento;8.14.3',
-            'orderId'=> '2111',
-            'id'=>'654',
-            'orderSource'=>'ecommerce',
-            'amount'=>'123');
+        $hash_in = [
+            'merchantSdk' => 'Magento;8.14.3',
+            'orderId'     => '2111',
+            'id'          => '654',
+            'orderSource' => 'ecommerce',
+            'amount'      => '123', ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock->expects($this->once())
         ->method('request')
@@ -46,11 +49,11 @@ class LitleOnlineRequestUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_set_merchant_sdk_default()
     {
-        $hash_in = array(
-                'orderId'=> '2111',
-                'id'=>'654',
-                'orderSource'=>'ecommerce',
-                'amount'=>'123');
+        $hash_in = [
+                'orderId'     => '2111',
+                'id'          => '654',
+                'orderSource' => 'ecommerce',
+                'amount'      => '123', ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock->expects($this->once())
         ->method('request')
@@ -60,5 +63,4 @@ class LitleOnlineRequestUnitTest extends \PHPUnit_Framework_TestCase
         $litleTest->newXML = $mock;
         $litleTest->authorizationRequest($hash_in);
     }
-
 }

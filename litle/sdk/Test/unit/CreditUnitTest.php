@@ -22,13 +22,16 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+
 namespace litle\sdk\Test\unit;
+
 use litle\sdk\LitleOnlineRequest;
+
 class CreditUnitTest extends \PHPUnit_Framework_TestCase
 {
     public function test_credit()
     {
-        $hash_in = array('litleTxnId'=> '12312312','reportGroup'=>'Planets', 'amount'=>'123');
+        $hash_in = ['litleTxnId' => '12312312', 'reportGroup' => 'Planets', 'amount' => '123'];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock->expects($this->once())
         ->method('request')
@@ -41,97 +44,96 @@ class CreditUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_both_choices_card_and_paypal()
     {
-        $hash_in = array(
-          'reportGroup'=>'Planets',
-          'orderId'=>'12344',
-          'amount'=>'106',
-          'orderSource'=>'ecommerce',
-          'card'=>array(
-          'type'=>'VI',
-          'number' =>'4100000000000001',
-          'expDate' =>'1210'
-        ),
-          'paypal'=>array(
-          'payerId'=>'1234',
-          'token'=>'1234',
-          'transactionId'=>'123456')
-        );
+        $hash_in = [
+          'reportGroup' => 'Planets',
+          'orderId'     => '12344',
+          'amount'      => '106',
+          'orderSource' => 'ecommerce',
+          'card'        => [
+          'type'    => 'VI',
+          'number'  => '4100000000000001',
+          'expDate' => '1210',
+        ],
+          'paypal' => [
+          'payerId'       => '1234',
+          'token'         => '1234',
+          'transactionId' => '123456', ],
+        ];
         $litleTest = new LitleOnlineRequest();
-        $this->setExpectedException('InvalidArgumentException',"Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!");
+        $this->setExpectedException('InvalidArgumentException', 'Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!');
         $retOb = $litleTest->creditRequest($hash_in);
     }
 
     public function test_three_choices_card_and_paypage_and_paypal()
     {
-        $hash_in = array(
-          'reportGroup'=>'Planets',
-          'orderId'=>'12344',
-          'amount'=>'106',
-          'orderSource'=>'ecommerce',
-          'card'=>array(
-          'type'=>'VI',
-          'number' =>'4100000000000001',
-          'expDate' =>'1210'
-        ),
-          'paypage'=> array(
-          'paypageRegistrationId'=>'1234',
-          'expDate'=>'1210',
-          'cardValidationNum'=>'555',
-          'type'=>'VI'),
-          'paypal'=>array(
-          'payerId'=>'1234',
-          'token'=>'1234',
-          'transactionId'=>'123456')
-        );
+        $hash_in = [
+          'reportGroup' => 'Planets',
+          'orderId'     => '12344',
+          'amount'      => '106',
+          'orderSource' => 'ecommerce',
+          'card'        => [
+          'type'    => 'VI',
+          'number'  => '4100000000000001',
+          'expDate' => '1210',
+        ],
+          'paypage' => [
+          'paypageRegistrationId' => '1234',
+          'expDate'               => '1210',
+          'cardValidationNum'     => '555',
+          'type'                  => 'VI', ],
+          'paypal' => [
+          'payerId'       => '1234',
+          'token'         => '1234',
+          'transactionId' => '123456', ],
+        ];
         $litleTest = new LitleOnlineRequest();
-        $this->setExpectedException('InvalidArgumentException',"Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!");
+        $this->setExpectedException('InvalidArgumentException', 'Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!');
         $retOb = $litleTest->creditRequest($hash_in);
-
     }
 
     public function test_all_choices_card_and_paypage_and_paypal_and_token()
     {
-        $hash_in = array(
-          'reportGroup'=>'Planets',
-          'litleTxnId'=>'123456',
-          'orderId'=>'12344',
-          'amount'=>'106',
-          'orderSource'=>'ecommerce',
-          'fraudCheck'=>array('authenticationTransactionId'=>'123'),
-          'bypassVelocityCheckcardholderAuthentication'=>array('authenticationTransactionId'=>'123'),
-          'card'=>array(
-          'type'=>'VI',
-          'number' =>'4100000000000001',
-          'expDate' =>'1210'
-        ),
-          'paypage'=> array(
-          'paypageRegistrationId'=>'1234',
-          'expDate'=>'1210',
-          'cardValidationNum'=>'555',
-          'type'=>'VI'),
-          'paypal'=>array(
-          'payerId'=>'1234',
-          'token'=>'1234',
-          'transactionId'=>'123456'),
-          'token'=> array(
-          'litleToken'=>'1234',
-          'expDate'=>'1210',
-          'cardValidationNum'=>'555',
-          'type'=>'VI')
-        );
+        $hash_in = [
+          'reportGroup'                                 => 'Planets',
+          'litleTxnId'                                  => '123456',
+          'orderId'                                     => '12344',
+          'amount'                                      => '106',
+          'orderSource'                                 => 'ecommerce',
+          'fraudCheck'                                  => ['authenticationTransactionId' => '123'],
+          'bypassVelocityCheckcardholderAuthentication' => ['authenticationTransactionId' => '123'],
+          'card'                                        => [
+          'type'    => 'VI',
+          'number'  => '4100000000000001',
+          'expDate' => '1210',
+        ],
+          'paypage' => [
+          'paypageRegistrationId' => '1234',
+          'expDate'               => '1210',
+          'cardValidationNum'     => '555',
+          'type'                  => 'VI', ],
+          'paypal' => [
+          'payerId'       => '1234',
+          'token'         => '1234',
+          'transactionId' => '123456', ],
+          'token' => [
+          'litleToken'        => '1234',
+          'expDate'           => '1210',
+          'cardValidationNum' => '555',
+          'type'              => 'VI', ],
+        ];
         $litleTest = new LitleOnlineRequest();
-        $this->setExpectedException('InvalidArgumentException',"Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!");
+        $this->setExpectedException('InvalidArgumentException', 'Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!');
         $retOb = $litleTest->creditRequest($hash_in);
     }
 
     public function test_action_reason_on_orphaned_refund()
     {
-        $hash_in = array(
-                    'orderId'=> '2111',
-                    'orderSource'=>'ecommerce',
-                    'amount'=>'123',
-                    'actionReason'=>'SUSPECT_FRAUD'
-        );
+        $hash_in = [
+                    'orderId'      => '2111',
+                    'orderSource'  => 'ecommerce',
+                    'amount'       => '123',
+                    'actionReason' => 'SUSPECT_FRAUD',
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock->expects($this->once())
         ->method('request')
@@ -144,12 +146,12 @@ class CreditUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_loggedInUser()
     {
-        $hash_in = array(
-                'litleTxnId'=> '12312312',
-                'reportGroup'=>'Planets',
-                'amount'=>'123',
-                'merchantSdk'=>'PHP;8.14.0',
-                'loggedInUser'=>'gdake');
+        $hash_in = [
+                'litleTxnId'   => '12312312',
+                'reportGroup'  => 'Planets',
+                'amount'       => '123',
+                'merchantSdk'  => 'PHP;8.14.0',
+                'loggedInUser' => 'gdake', ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock->expects($this->once())
         ->method('request')
@@ -162,12 +164,12 @@ class CreditUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_surchargeAmount_tied()
     {
-        $hash_in = array(
-                'amount'=>'2',
-                'surchargeAmount'=>'1',
-                'litleTxnId'=>'3',
-                'processingInstructions'=>array(),
-        );
+        $hash_in = [
+                'amount'                 => '2',
+                'surchargeAmount'        => '1',
+                'litleTxnId'             => '3',
+                'processingInstructions' => [],
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock
         ->expects($this->once())
@@ -181,11 +183,11 @@ class CreditUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_surchargeAmount_tied_optional()
     {
-        $hash_in = array(
-                'amount'=>'2',
-                'litleTxnId'=>'3',
-                'processingInstructions'=>array(),
-        );
+        $hash_in = [
+                'amount'                 => '2',
+                'litleTxnId'             => '3',
+                'processingInstructions' => [],
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock
         ->expects($this->once())
@@ -199,12 +201,12 @@ class CreditUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_surchargeAmount_orphan()
     {
-        $hash_in = array(
-                'amount'=>'2',
-                'surchargeAmount'=>'1',
-                'orderId'=>'3',
-                'orderSource'=>'ecommerce',
-        );
+        $hash_in = [
+                'amount'          => '2',
+                'surchargeAmount' => '1',
+                'orderId'         => '3',
+                'orderSource'     => 'ecommerce',
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock
         ->expects($this->once())
@@ -218,11 +220,11 @@ class CreditUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_surchargeAmount_orphan_optional()
     {
-        $hash_in = array(
-                'amount'=>'2',
-                'orderId'=>'3',
-                'orderSource'=>'ecommerce',
-        );
+        $hash_in = [
+                'amount'      => '2',
+                'orderId'     => '3',
+                'orderSource' => 'ecommerce',
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock
         ->expects($this->once())
@@ -236,17 +238,17 @@ class CreditUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_pos_tied()
     {
-        $hash_in = array(
-                'amount'=>'2',
-                'pos'=>array(
-                    'terminalId'=>'abc123',
-                    'capability'=>'a',
-                    'entryMode'=>'b',
-                    'cardholderId'=>'c'
-                ),
-                'litleTxnId'=>'3',
-                'payPalNotes'=>'notes',
-        );
+        $hash_in = [
+                'amount' => '2',
+                'pos'    => [
+                    'terminalId'   => 'abc123',
+                    'capability'   => 'a',
+                    'entryMode'    => 'b',
+                    'cardholderId' => 'c',
+                ],
+                'litleTxnId'  => '3',
+                'payPalNotes' => 'notes',
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock
         ->expects($this->once())
@@ -260,11 +262,11 @@ class CreditUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_pos_tied_optional()
     {
-        $hash_in = array(
-                'amount'=>'2',
-                'litleTxnId'=>'3',
-                'payPalNotes'=>'notes',
-        );
+        $hash_in = [
+                'amount'      => '2',
+                'litleTxnId'  => '3',
+                'payPalNotes' => 'notes',
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock
         ->expects($this->once())
@@ -275,18 +277,17 @@ class CreditUnitTest extends \PHPUnit_Framework_TestCase
         $litleTest->newXML = $mock;
         $litleTest->creditRequest($hash_in);
     }
-    
+
     public function test_credit_with_secondaryAmount()
     {
-    	$hash_in = array('litleTxnId'=> '12312312','reportGroup'=>'Planets', 'amount'=>'123', 'secondaryAmount' => '3214');
-    	$mock = $this->getMock('litle\sdk\LitleXmlMapper');
-    	$mock->expects($this->once())
-    	->method('request')
-    	->with($this->matchesRegularExpression('/.*<litleTxnId>12312312.*<amount>123.*/'));
-    
-    	$litleTest = new LitleOnlineRequest();
-    	$litleTest->newXML = $mock;
-    	$litleTest->creditRequest($hash_in);
-    }
+        $hash_in = ['litleTxnId' => '12312312', 'reportGroup' => 'Planets', 'amount' => '123', 'secondaryAmount' => '3214'];
+        $mock = $this->getMock('litle\sdk\LitleXmlMapper');
+        $mock->expects($this->once())
+        ->method('request')
+        ->with($this->matchesRegularExpression('/.*<litleTxnId>12312312.*<amount>123.*/'));
 
+        $litleTest = new LitleOnlineRequest();
+        $litleTest->newXML = $mock;
+        $litleTest->creditRequest($hash_in);
+    }
 }

@@ -22,139 +22,140 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+
 namespace litle\sdk\Test\unit;
+
 use litle\sdk\LitleOnlineRequest;
+
 class CaptureGivenAuthUnitTest extends \PHPUnit_Framework_TestCase
 {
     public function test_simple_captureGivenAuth()
     {
-        $hash_in = array(
-       'amount'=>'123',
-       'orderId'=>'12344',
-       'authInformation' => array(
-       'authDate'=>'2002-10-09','authCode'=>'543216',
-       'authAmount'=>'12345'),
-       'orderSource'=>'ecommerce',
-       'card'=>array(
-       'type'=>'VI',
-       'number' =>'4100000000000001',
-       'expDate' =>'1210'));
+        $hash_in = [
+       'amount'          => '123',
+       'orderId'         => '12344',
+       'authInformation' => [
+       'authDate'   => '2002-10-09', 'authCode' => '543216',
+       'authAmount' => '12345', ],
+       'orderSource' => 'ecommerce',
+       'card'        => [
+       'type'    => 'VI',
+       'number'  => '4100000000000001',
+       'expDate' => '1210', ], ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
-        $mock	->expects($this->once())
+        $mock->expects($this->once())
         ->method('request')
         ->with($this->matchesRegularExpression('/.*<authInformation><authDate>2002-10-09.*<authCode>543216.*><authAmount>12345.*/'));
 
         $litleTest = new LitleOnlineRequest();
         $litleTest->newXML = $mock;
         $litleTest->captureGivenAuthRequest($hash_in);
-
     }
 
     public function test_no_amount()
     {
-        $hash_in = array(
-       'reportGroup'=>'Planets',
-       'orderId'=>'12344',
-       'authInformation' => array(
-       'authDate'=>'2002-10-09','authCode'=>'543216',
-       'authAmount'=>'12345'),
-       'orderSource'=>'ecommerce',
-       'card'=>array(
-       'type'=>'VI',
-       'number' =>'4100000000000001',
-       'expDate' =>'1210'));
+        $hash_in = [
+       'reportGroup'     => 'Planets',
+       'orderId'         => '12344',
+       'authInformation' => [
+       'authDate'   => '2002-10-09', 'authCode' => '543216',
+       'authAmount' => '12345', ],
+       'orderSource' => 'ecommerce',
+       'card'        => [
+       'type'    => 'VI',
+       'number'  => '4100000000000001',
+       'expDate' => '1210', ], ];
         $litleTest = new LitleOnlineRequest();
-        $this->setExpectedException("InvalidArgumentException","Missing Required Field: /amount/");
+        $this->setExpectedException('InvalidArgumentException', 'Missing Required Field: /amount/');
         $retOb = $litleTest->captureGivenAuthRequest($hash_in);
     }
 
     public function test_both_choices_card_and_token()
     {
-        $hash_in = array(
-          'reportGroup'=>'Planets',
-          'orderId'=>'1234',
-         'amount'=>'106',
-         'orderSource'=>'ecommerce',
-          'authInformation' => array(
-          'authDate'=>'2002-10-09','authCode'=>'543216',
-         'authAmount'=>'12345'),
-          'token'=> array(
-          'litleToken'=>'123456789101112',
-         'expDate'=>'1210',
-        'cardValidationNum'=>'555',
-        'type'=>'VI'),
-         'card'=>array(
-        'type'=>'VI',
-        'number' =>'4100000000000001',
-        'expDate' =>'1210'));
+        $hash_in = [
+          'reportGroup'     => 'Planets',
+          'orderId'         => '1234',
+         'amount'           => '106',
+         'orderSource'      => 'ecommerce',
+          'authInformation' => [
+          'authDate'  => '2002-10-09', 'authCode' => '543216',
+         'authAmount' => '12345', ],
+          'token' => [
+          'litleToken'      => '123456789101112',
+         'expDate'          => '1210',
+        'cardValidationNum' => '555',
+        'type'              => 'VI', ],
+         'card' => [
+        'type'    => 'VI',
+        'number'  => '4100000000000001',
+        'expDate' => '1210', ], ];
         $litleTest = new LitleOnlineRequest();
-        $this->setExpectedException('InvalidArgumentException',"Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!");
+        $this->setExpectedException('InvalidArgumentException', 'Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!');
         $retOb = $litleTest->captureGivenAuthRequest($hash_in);
     }
 
     public function test_all_choices()
     {
-        $hash_in = array(
-                  'reportGroup'=>'Planets',
-                  'litleTxnId'=>'123456',
-                  'orderId'=>'12344',
-                  'amount'=>'106',
-                  'orderSource'=>'ecommerce',
-                  'fraudCheck'=>array('authenticationTransactionId'=>'123'),
-                  'cardholderAuthentication'=>array('authenticationTransactionId'=>'123'),
-                  'card'=>array(
-                  'type'=>'VI',
-                  'number' =>'4100000000000001',
-                  'expDate' =>'1210'),
-                  'paypage'=> array(
-                  'paypageRegistrationId'=>'1234',
-                  'expDate'=>'1210',
-                  'cardValidationNum'=>'555',
-                  'type'=>'VI'),
-                  'token'=> array(
-                  'litleToken'=>'1234',
-                  'expDate'=>'1210',
-                  'cardValidationNum'=>'555',
-                  'type'=>'VI'));
+        $hash_in = [
+                  'reportGroup'              => 'Planets',
+                  'litleTxnId'               => '123456',
+                  'orderId'                  => '12344',
+                  'amount'                   => '106',
+                  'orderSource'              => 'ecommerce',
+                  'fraudCheck'               => ['authenticationTransactionId' => '123'],
+                  'cardholderAuthentication' => ['authenticationTransactionId' => '123'],
+                  'card'                     => [
+                  'type'    => 'VI',
+                  'number'  => '4100000000000001',
+                  'expDate' => '1210', ],
+                  'paypage' => [
+                  'paypageRegistrationId' => '1234',
+                  'expDate'               => '1210',
+                  'cardValidationNum'     => '555',
+                  'type'                  => 'VI', ],
+                  'token' => [
+                  'litleToken'        => '1234',
+                  'expDate'           => '1210',
+                  'cardValidationNum' => '555',
+                  'type'              => 'VI', ], ];
         $litleTest = new LitleOnlineRequest();
-        $this->setExpectedException('InvalidArgumentException',"Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!");
+        $this->setExpectedException('InvalidArgumentException', 'Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!');
         $retOb = $litleTest->captureGivenAuthRequest($hash_in);
     }
 
     public function test_loggedInUser()
     {
-        $hash_in = array(
-                'loggedInUser'=>'gdake',
-                'merchantSdk'=>'PHP;8.14.0',
-                'amount'=>'123',
-                'orderId'=>'12344',
-                'authInformation' => array(
-                        'authDate'=>'2002-10-09','authCode'=>'543216',
-                        'authAmount'=>'12345'),
-                'orderSource'=>'ecommerce',
-                'card'=>array(
-                        'type'=>'VI',
-                        'number' =>'4100000000000001',
-                        'expDate' =>'1210'));
+        $hash_in = [
+                'loggedInUser'    => 'gdake',
+                'merchantSdk'     => 'PHP;8.14.0',
+                'amount'          => '123',
+                'orderId'         => '12344',
+                'authInformation' => [
+                        'authDate'   => '2002-10-09', 'authCode' => '543216',
+                        'authAmount' => '12345', ],
+                'orderSource' => 'ecommerce',
+                'card'        => [
+                        'type'    => 'VI',
+                        'number'  => '4100000000000001',
+                        'expDate' => '1210', ], ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
-        $mock	->expects($this->once())
+        $mock->expects($this->once())
         ->method('request')
         ->with($this->matchesRegularExpression('/.*merchantSdk="PHP;8.14.0".*loggedInUser="gdake" xmlns=.*>.*/'));
 
         $litleTest = new LitleOnlineRequest();
         $litleTest->newXML = $mock;
         $litleTest->captureGivenAuthRequest($hash_in);
-
     }
 
     public function test_surchargeAmount()
     {
-        $hash_in = array(
-            'amount'=>'2',
-            'surchargeAmount'=>'1',
-            'orderSource'=>'ecommerce',
-            'orderId'=>'3'
-        );
+        $hash_in = [
+            'amount'          => '2',
+            'surchargeAmount' => '1',
+            'orderSource'     => 'ecommerce',
+            'orderId'         => '3',
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock
             ->expects($this->once())
@@ -168,11 +169,11 @@ class CaptureGivenAuthUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_surchargeAmount_optional()
     {
-        $hash_in = array(
-                'amount'=>'2',
-                'orderSource'=>'ecommerce',
-                'orderId'=>'3'
-        );
+        $hash_in = [
+                'amount'      => '2',
+                'orderSource' => 'ecommerce',
+                'orderId'     => '3',
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock
         ->expects($this->once())
@@ -186,15 +187,15 @@ class CaptureGivenAuthUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_debtRepayment_true()
     {
-        $hash_in = array(
-                'amount'=>'2',
-                'orderSource'=>'ecommerce',
-                'orderId'=>'3',
-                'merchantData'=>array(
-                    'campaign'=>'foo',
-                ),
-                'debtRepayment'=>'true'
-        );
+        $hash_in = [
+                'amount'       => '2',
+                'orderSource'  => 'ecommerce',
+                'orderId'      => '3',
+                'merchantData' => [
+                    'campaign' => 'foo',
+                ],
+                'debtRepayment' => 'true',
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock
         ->expects($this->once())
@@ -208,15 +209,15 @@ class CaptureGivenAuthUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_debtRepayment_false()
     {
-        $hash_in = array(
-                'amount'=>'2',
-                'orderSource'=>'ecommerce',
-                'orderId'=>'3',
-                'merchantData'=>array(
-                    'campaign'=>'foo',
-                ),
-                'debtRepayment'=>'false'
-        );
+        $hash_in = [
+                'amount'       => '2',
+                'orderSource'  => 'ecommerce',
+                'orderId'      => '3',
+                'merchantData' => [
+                    'campaign' => 'foo',
+                ],
+                'debtRepayment' => 'false',
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock
         ->expects($this->once())
@@ -230,14 +231,14 @@ class CaptureGivenAuthUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_debtRepayment_optional()
     {
-        $hash_in = array(
-                'amount'=>'2',
-                'orderSource'=>'ecommerce',
-                'orderId'=>'3',
-                'merchantData'=>array(
-                        'campaign'=>'foo',
-                ),
-        );
+        $hash_in = [
+                'amount'       => '2',
+                'orderSource'  => 'ecommerce',
+                'orderId'      => '3',
+                'merchantData' => [
+                        'campaign' => 'foo',
+                ],
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock
         ->expects($this->once())
@@ -248,30 +249,28 @@ class CaptureGivenAuthUnitTest extends \PHPUnit_Framework_TestCase
         $litleTest->newXML = $mock;
         $litleTest->captureGivenAuthRequest($hash_in);
     }
-    
+
     public function test_simple_captureGivenAuth_secondaryAmount()
     {
-    	$hash_in = array(
-    			'amount'=>'123',
-    			'secondaryAmount' => '2102',
-    			'orderId'=>'12344',
-    			'authInformation' => array(
-    					'authDate'=>'2002-10-09','authCode'=>'543216',
-    					'authAmount'=>'12345'),
-    			'orderSource'=>'ecommerce',
-    			'card'=>array(
-    					'type'=>'VI',
-    					'number' =>'4100000000000001',
-    					'expDate' =>'1210'));
-    	$mock = $this->getMock('litle\sdk\LitleXmlMapper');
-    	$mock	->expects($this->once())
-    	->method('request')
-    	->with($this->matchesRegularExpression('/.*<authInformation><authDate>2002-10-09.*<authCode>543216.*><authAmount>12345.*/'));
-    
-    	$litleTest = new LitleOnlineRequest();
-    	$litleTest->newXML = $mock;
-    	$litleTest->captureGivenAuthRequest($hash_in);
-    
-    }
+        $hash_in = [
+                'amount'          => '123',
+                'secondaryAmount' => '2102',
+                'orderId'         => '12344',
+                'authInformation' => [
+                        'authDate'   => '2002-10-09', 'authCode' => '543216',
+                        'authAmount' => '12345', ],
+                'orderSource' => 'ecommerce',
+                'card'        => [
+                        'type'    => 'VI',
+                        'number'  => '4100000000000001',
+                        'expDate' => '1210', ], ];
+        $mock = $this->getMock('litle\sdk\LitleXmlMapper');
+        $mock->expects($this->once())
+        ->method('request')
+        ->with($this->matchesRegularExpression('/.*<authInformation><authDate>2002-10-09.*<authCode>543216.*><authAmount>12345.*/'));
 
+        $litleTest = new LitleOnlineRequest();
+        $litleTest->newXML = $mock;
+        $litleTest->captureGivenAuthRequest($hash_in);
+    }
 }

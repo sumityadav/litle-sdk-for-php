@@ -22,70 +22,72 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-namespace litle\sdk;
-require_once realpath(dirname(__FILE__)) . '/UrlMapper.php';
 
-function writeConfig($line,$handle)
+namespace litle\sdk;
+
+require_once realpath(dirname(__FILE__)).'/UrlMapper.php';
+
+function writeConfig($line, $handle)
 {
     foreach ($line as $keys => $values) {
-        fwrite($handle, $keys. '');
+        fwrite($handle, $keys.'');
         if (is_array($values)) {
             foreach ($values as $key2 => $value2) {
-                fwrite($handle,"['" . $key2 . "'] =" . $value2 .  PHP_EOL);
+                fwrite($handle, "['".$key2."'] =".$value2.PHP_EOL);
             }
         } else {
-            fwrite($handle,' =' . $values);
+            fwrite($handle, ' ='.$values);
             fwrite($handle, PHP_EOL);
         }
     }
 }
 function initialize()
 {
-    $line = array();
-    $merchantArray = array();
-    $handle = @fopen('./litle_SDK_config.ini', "w");
+    $line = [];
+    $merchantArray = [];
+    $handle = @fopen('./litle_SDK_config.ini', 'w');
     if ($handle) {
-        print "Welcome to Litle PHP_SDK" . PHP_EOL;
-        print "Please input your user name: ";
+        echo 'Welcome to Litle PHP_SDK'.PHP_EOL;
+        echo 'Please input your user name: ';
         $line['user'] = trim(fgets(STDIN));
-        print "Please input your password: ";
+        echo 'Please input your password: ';
         $line['password'] = trim(fgets(STDIN));
-        print "Please input your merchantId: ";
+        echo 'Please input your merchantId: ';
         $line['currency_merchant_map ']['DEFAULT'] = trim(fgets(STDIN));
-        print "Please choose Litle url from the following list (example: 'sandbox') or directly input another URL: \nsandbox => https://www.testlitle.com/sandbox/communicator/online \npostlive => https://postlive.litle.com/vap/communicator/online \ntransact-postlive => https://transact-postlive.litle.com/vap/communicator/online \nproduction => https://payments.litle.com/vap/communicator/online \nproduction-transact => https://transact.litle.com/vap/communicator/online \nprelive => https://prelive.litle.com/vap/communicator/online \ntransact-prelive => https://transact-prelive.litle.com/vap/communicator/online" . PHP_EOL;
+        echo "Please choose Litle url from the following list (example: 'sandbox') or directly input another URL: \nsandbox => https://www.testlitle.com/sandbox/communicator/online \npostlive => https://postlive.litle.com/vap/communicator/online \ntransact-postlive => https://transact-postlive.litle.com/vap/communicator/online \nproduction => https://payments.litle.com/vap/communicator/online \nproduction-transact => https://transact.litle.com/vap/communicator/online \nprelive => https://prelive.litle.com/vap/communicator/online \ntransact-prelive => https://transact-prelive.litle.com/vap/communicator/online".PHP_EOL;
         $url = UrlMapper::getUrl(trim(fgets(STDIN)));
-	
+
         $line['url'] = $url;
-        print "Please input the proxy, if no proxy hit enter key: ";
+        echo 'Please input the proxy, if no proxy hit enter key: ';
         $line['proxy'] = trim(fgets(STDIN));
 
-        print "Batch processing saves files to disk. \n";
-        print "Please input a directory to save these files. If you are not using batch processing, you may hit enter. ";
+        echo "Batch processing saves files to disk. \n";
+        echo 'Please input a directory to save these files. If you are not using batch processing, you may hit enter. ';
         $dir = trim(fgets(STDIN));
         $line['batch_requests_path'] = $dir;
         $line['litle_requests_path'] = $dir;
 
-        print "Please input your SFTP username. If you are not using SFTP, you may hit enter. ";
+        echo 'Please input your SFTP username. If you are not using SFTP, you may hit enter. ';
         $line['sftp_username'] = trim(fgets(STDIN));
-        print "Please input your SFTP password. If you are not using SFTP, you may hit enter. ";
+        echo 'Please input your SFTP password. If you are not using SFTP, you may hit enter. ';
         $line['sftp_password'] = trim(fgets(STDIN));
-        print "Please input the URL for batch processing. If you are not using batch processing, you may hit enter. ";
+        echo 'Please input the URL for batch processing. If you are not using batch processing, you may hit enter. ';
         $line['batch_url'] = trim(fgets(STDIN));
-        print "Please input the port for stream batch delivery. If you are not using stream batch delivery, you may hit enter. ";
+        echo 'Please input the port for stream batch delivery. If you are not using stream batch delivery, you may hit enter. ';
         $line['tcp_port'] = trim(fgets(STDIN));
-        print "Please input the timeout (in seconds) for stream batch delivery. If you are not using stream batch delivery, you may hit enter. ";
+        echo 'Please input the timeout (in seconds) for stream batch delivery. If you are not using stream batch delivery, you may hit enter. ';
         $line['tcp_timeout'] = trim(fgets(STDIN));
         # ssl should be usd by default
         $line['tcp_ssl'] = '1';
         $line['print_xml'] = '0';
 
-        writeConfig($line,$handle);
+        writeConfig($line, $handle);
         #default http timeout set to 500 ms
-        fwrite($handle, "timeout =  500".  PHP_EOL);
-        fwrite($handle, "reportGroup = Default Report Group".  PHP_EOL);
+        fwrite($handle, 'timeout =  500'.PHP_EOL);
+        fwrite($handle, 'reportGroup = Default Report Group'.PHP_EOL);
     }
     fclose($handle);
-    print "The Litle configuration file has been generated, the file is located in the lib directory". PHP_EOL;
+    echo 'The Litle configuration file has been generated, the file is located in the lib directory'.PHP_EOL;
 }
 
 initialize();

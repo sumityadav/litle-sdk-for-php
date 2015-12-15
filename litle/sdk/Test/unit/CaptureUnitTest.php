@@ -22,13 +22,16 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+
 namespace litle\sdk\Test\unit;
+
 use litle\sdk\LitleOnlineRequest;
+
 class CaptureUnitTest extends \PHPUnit_Framework_TestCase
 {
     public function test_simple_capture()
     {
-        $hash_in = array('litleTxnId'=> '12312312', 'amount'=>'123');
+        $hash_in = ['litleTxnId' => '12312312', 'amount' => '123'];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock->expects($this->once())
         ->method('request')
@@ -41,19 +44,19 @@ class CaptureUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_no_txnid()
     {
-        $hash_in =array('reportGroup'=>'Planets','amount'=>'106');
+        $hash_in = ['reportGroup' => 'Planets', 'amount' => '106'];
         $litleTest = new LitleOnlineRequest();
-        $this->setExpectedException('InvalidArgumentException','Missing Required Field: /litleTxnId/');
+        $this->setExpectedException('InvalidArgumentException', 'Missing Required Field: /litleTxnId/');
         $litleTest->captureRequest($hash_in);
     }
 
     public function test_loggedInUser()
     {
-        $hash_in = array(
-                'litleTxnId'=> '12312312',
-                'merchantSdk'=>'PHP;8.14.0',
-                'amount'=>'123',
-                'loggedInUser'=>'gdake');
+        $hash_in = [
+                'litleTxnId'   => '12312312',
+                'merchantSdk'  => 'PHP;8.14.0',
+                'amount'       => '123',
+                'loggedInUser' => 'gdake', ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock->expects($this->once())
         ->method('request')
@@ -66,12 +69,12 @@ class CaptureUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_surchargeAmount()
     {
-        $hash_in = array(
-            'litleTxnId'=>'3',
-            'amount'=>'2',
-            'surchargeAmount'=>'1',
-            'payPalNotes'=>'notes',
-        );
+        $hash_in = [
+            'litleTxnId'      => '3',
+            'amount'          => '2',
+            'surchargeAmount' => '1',
+            'payPalNotes'     => 'notes',
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock
             ->expects($this->once())
@@ -85,11 +88,11 @@ class CaptureUnitTest extends \PHPUnit_Framework_TestCase
 
     public function test_surchargeAmount_optional()
     {
-        $hash_in = array(
-                'litleTxnId'=>'3',
-                'amount'=>'2',
-                'payPalNotes'=>'notes',
-        );
+        $hash_in = [
+                'litleTxnId'  => '3',
+                'amount'      => '2',
+                'payPalNotes' => 'notes',
+        ];
         $mock = $this->getMock('litle\sdk\LitleXmlMapper');
         $mock
         ->expects($this->once())
@@ -100,5 +103,4 @@ class CaptureUnitTest extends \PHPUnit_Framework_TestCase
         $litleTest->newXML = $mock;
         $litleTest->captureRequest($hash_in);
     }
-
 }
